@@ -1,0 +1,28 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    padding-left: 400px;
+    padding-right: 400px;
+    text-align: center;
+}
+
+.grid-item {
+    vertical-align: top;
+    width: 120px;
+    padding: 0px;
+}
+
+footer {
+    font-size: 13px;
+    padding: 10px;
+    text-align: center;
+}
+
+header{
+    display: grid;
+    justify-content: center
+}
+
+a:hover {
+  background-color: yellow;
+}
