@@ -54,8 +54,8 @@
             <label>Max Length</label>
             <input type="text" id="maxLength" size="40" value="10">
             <br>
-            <input type="checkbox" id="ezTyping" value="1" onclick="doubleCheck()">Easy Typing (Words with double letters)<br>
-            <input type="checkbox" id="numSub" value="1" onclick="doubleCheck()">Number Substiutions<br>
+            <input type="checkbox" id="ezTyping" value="1">Easy Typing (Has words with double letters)<br>
+            <input type="checkbox" id="numSub" value="1">Number Substiutions<br>
         </form>
         <button onclick="gen_pwd()">Generate Password</button>
     </main>
@@ -318,21 +318,13 @@
         function isIsogram (str) {
             return /(.).*\1/.test(str);
         }
-        
-        function doubleCheck(){
-            if(numSub.checked && ezType.checked){
-                alert("Please select only one box.")
-                numSub.checked = false;
-                ezType.checked = false;
-            }
-        }
                                              
         function gen_pwd() {
             var tbl = document.querySelector("#pwTable");
             var tr = document.createElement("tr");
             var wSum = max.value;
             var sum = 0;
-            if(ezType.checked){
+            if(ezType.checked && !numSub.checked){
                 for(var i=0; i < 50; i++){
                     var w = xkcd_wordlist[Math.floor((Math.random()*xkcd_wordlist.length))];
                     if(w.length >= minWordLen.value && w.length <= maxWordLen.value && isIsogram(w)){
@@ -354,7 +346,7 @@
                 td.innerHTML = "Password length: " + sum;
                 tr.appendChild(td);
                 tbl.appendChild(tr);
-            }else if(numSub.checked){
+            }else if(!ezType.checked && numSub.checked){
                  for(var i=0; i < 50; i++){
                     var w = xkcd_wordlist[Math.floor((Math.random()*xkcd_wordlist.length))];
                     if(w.length >= minWordLen.value && w.length <= maxWordLen.value){
@@ -387,6 +379,32 @@
                         if(wSum < 0){
                            break;
                            }
+                        sum += w.length;
+                        arr.push(w);
+                        var td = document.createElement("td");
+                        td.innerHTML = w;
+                        tr.appendChild(td);
+                    }
+                    else{
+                        i -= 1
+                    }
+                }
+                var td = document.createElement("td");
+                td.innerHTML = "Password length: " + sum;
+                tr.appendChild(td);
+                tbl.appendChild(tr);
+            }
+            else{
+                for(var i=0; i < 50; i++){
+                    var w = xkcd_wordlist[Math.floor((Math.random()*xkcd_wordlist.length))];
+                    if(w.length >= minWordLen.value && w.length <= maxWordLen.value && isIsogram(w)){
+                        wSum -= w.length;
+                        if(wSum < 0){
+                           break;
+                        }
+                        w = w.replace("o", "0");
+                        w = w.replace("i", "1");
+                        w = w.replace("e", "3");
                         sum += w.length;
                         arr.push(w);
                         var td = document.createElement("td");
